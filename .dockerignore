@@ -1,0 +1,13 @@
+.git
+.github
+.husky
+node_modules
+dist
+coverage
+playwright-report
+test-results
+docs
+*.md
+!README.md
+.env
+.env.*

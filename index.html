@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0a0f1e" />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="A timed 20-question reasoning assessment covering patterns, numbers, language and logic, scored on the IQ scale. Runs entirely in your browser."
+    />
+    <meta name="referrer" content="no-referrer" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Cognitive Index — Reasoning Assessment</title>
+    <script type="module" src="/src/main.ts"></script>
+  </head>
+  <body>
+    <header class="topbar" id="topbar">
+      <div class="brand">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <rect x="1" y="1" width="30" height="30" rx="9" fill="rgba(99,102,241,.2)" stroke="#818cf8" />
+          <path
+            d="M5 23 C10 23 11 8 16 8 C21 8 22 23 27 23"
+            fill="none"
+            stroke="#c7d2fe"
+            stroke-width="2.2"
+            stroke-linecap="round"
+          />
+          <circle cx="21" cy="15.5" r="2.4" fill="#818cf8" />
+        </svg>
+        <span>Cognitive Index <small>reasoning assessment</small></span>
+      </div>
+      <button class="btn btn-ghost small" id="btn-history-top" type="button" hidden>History</button>
+    </header>
+
+    <noscript>
+      <p class="wrap noscript">
+        Cognitive Index needs JavaScript to run the timed test. Enable it and reload.
+      </p>
+    </noscript>
+
+    <main class="wrap" id="main">
+      <!-- ================= WELCOME ================= -->
+      <section id="screen-welcome" aria-labelledby="welcome-title">
+        <div class="hero">
+          <div class="glass pad">
+            <h1 id="welcome-title" tabindex="-1">Measure how you reason under time pressure</h1>
+            <p class="lede">
+              Twenty questions across patterns, numbers, language and logic. Your score is placed on the
+              standard IQ scale, adjusted for your age group and how quickly you finish.
+            </p>
+
+            <div class="facts" role="list">
+              <div class="fact" role="listitem"><b id="fact-q">20</b><span>questions</span></div>
+              <div class="fact" role="listitem"><b id="fact-time">15:00</b><span>time limit</span></div>
+              <div class="fact" role="listitem"><b>4</b><span>domains</span></div>
+            </div>
+
+            <form id="start-form" class="mt-lg" novalidate>
+              <label class="field" for="in-name">
+                <span>Your name</span>
+                <input
+                  class="input"
+                  id="in-name"
+                  name="name"
+                  autocomplete="given-name"
+                  maxlength="40"
+                  placeholder="e.g. Alex"
+                  aria-describedby="start-err"
+                  required
+                />
+              </label>
+              <fieldset class="field fieldset">
+                <legend>Age group</legend>
+                <div class="seg" id="age-seg">
+                  <label><input type="radio" name="age" value="u18" /><span>Under 18</span></label>
+                  <label><input type="radio" name="age" value="a18" checked /><span>18–35</span></label>
+                  <label><input type="radio" name="age" value="a36" /><span>36–50</span></label>
+                  <label><input type="radio" name="age" value="a50" /><span>50+</span></label>
+                </div>
+              </fieldset>
+              <p class="err" id="start-err" role="alert"></p>
+              <button class="btn btn-primary btn-lg btn-block" type="submit">Start the test</button>
+            </form>
+          </div>
+
+          <div class="glass pad stack">
+            <div>
+              <h2>What you'll see</h2>
+              <ul class="domain-list">
+                <li>
+                  <i class="dot d-pattern" aria-hidden="true"></i>
+                  <div>
+                    <b>Pattern recognition</b><br /><span class="muted small"
+                      >Find the missing tile in a 3×3 matrix.</span
+                    >
+                  </div>
+                </li>
+                <li>
+                  <i class="dot d-numerical" aria-hidden="true"></i>
+                  <div>
+                    <b>Numerical sequences</b><br /><span class="muted small"
+                      >Spot the rule and continue the series.</span
+                    >
+                  </div>
+                </li>
+                <li>
+                  <i class="dot d-verbal" aria-hidden="true"></i>
+                  <div>
+                    <b>Verbal &amp; spatial</b><br /><span class="muted small"
+                      >Analogies, odd-one-out and mental rotation.</span
+                    >
+                  </div>
+                </li>
+                <li>
+                  <i class="dot d-deductive" aria-hidden="true"></i>
+                  <div>
+                    <b>Deductive reasoning</b><br /><span class="muted small"
+                      >Draw only what the premises guarantee.</span
+                    >
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3>How it's scored</h3>
+              <p class="muted small">
+                Hard questions count three times as much as easy ones, medium twice. Time left on the clock
+                adds up to 10% to your weighted accuracy. That figure is compared with the norm for your age
+                group and converted to a score with mean 100 and standard deviation 15, reported between 70
+                and 160.
+              </p>
+              <p class="muted small">
+                You can skip, go back, and flag questions. Progress is saved in this browser, so a refresh
+                won't lose your answers. The test submits itself at 00:00.
+              </p>
+            </div>
+            <p class="note">
+              This is a practice assessment with illustrative norms, not a clinically standardised test. Treat
+              the score as an estimate.
+            </p>
+          </div>
+        </div>
+
+        <div class="glass pad mt-lg" id="welcome-history" hidden>
+          <h2>Your past results</h2>
+          <div id="welcome-history-body"></div>
+        </div>
+      </section>
+
+      <!-- ================= QUIZ ================= -->
+      <section id="screen-quiz" hidden aria-labelledby="quiz-title">
+        <h1 id="quiz-title" class="sr-only" tabindex="-1">Test in progress</h1>
+        <div class="quiz-head">
+          <div class="timer" id="timer" role="timer" aria-label="Time remaining">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="13" r="8" />
+              <path d="M12 9v4l2.5 2M9 2h6" />
+            </svg>
+            <span id="timer-text">15:00</span>
+          </div>
+          <span class="counter" id="q-counter">Question 1 of 20</span>
+          <span class="spacer"></span>
+          <span class="counter small" id="answered-count">0 answered</span>
+        </div>
+        <div
+          class="progress"
+          role="progressbar"
+          aria-label="Test progress"
+          aria-valuemin="1"
+          aria-valuemax="20"
+          aria-valuenow="1"
+          id="progress"
+        >
+          <i id="progress-bar"></i>
+        </div>
+
+        <div class="quiz-grid">
+          <article class="glass pad q-card" id="q-card" aria-labelledby="q-prompt">
+            <div class="chips">
+              <span class="chip" id="q-domain"></span><span class="chip" id="q-diff"></span>
+            </div>
+            <p class="prompt" id="q-prompt"></p>
+            <div class="visual" id="q-visual"></div>
+            <div class="options" id="q-options" role="radiogroup" aria-labelledby="q-prompt"></div>
+            <div class="nav">
+              <button class="btn" id="btn-prev" type="button">Previous</button>
+              <button class="btn" id="btn-flag" type="button" aria-pressed="false">Flag for review</button>
+              <button class="btn btn-primary" id="btn-next" type="button">Next</button>
+            </div>
+            <p class="kbd-hint">
+              Keys: <kbd>1</kbd>–<kbd>4</kbd> or <kbd>A</kbd>–<kbd>D</kbd> to answer, <kbd>←</kbd>
+              <kbd>→</kbd> to move, <kbd>F</kbd> to flag.
+            </p>
+          </article>
+
+          <aside class="glass pad side" aria-label="Question overview">
+            <h2 class="h3">Overview <span class="muted small" id="flag-count">0 flagged</span></h2>
+            <nav class="qgrid" id="qgrid" aria-label="Jump to question"></nav>
+            <div class="legend">
+              <span><i class="lg-answered" aria-hidden="true"></i>Answered</span>
+              <span><i class="lg-open" aria-hidden="true"></i>Not answered</span>
+              <span><i class="lg-flag" aria-hidden="true"></i>Flagged</span>
+            </div>
+            <button class="btn btn-primary btn-block mt" id="btn-submit" type="button">Submit test</button>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ================= RESULTS ================= -->
+      <section id="screen-results" hidden aria-labelledby="res-heading">
+        <h1 id="res-heading" class="sr-only" tabindex="-1">Your results</h1>
+        <div class="glass pad">
+          <div class="score-hero">
+            <div>
+              <div class="iq-num" id="res-iq" data-testid="iq-score">100</div>
+              <div class="iq-label">Estimated IQ</div>
+            </div>
+            <div>
+              <p class="muted small mb-xs" id="res-title"></p>
+              <p class="band" id="res-band" data-testid="iq-band"></p>
+              <p class="muted m-0" id="res-pct"></p>
+            </div>
+          </div>
+          <div class="stats">
+            <div class="stat"><b id="st-correct">–</b><span>correct answers</span></div>
+            <div class="stat"><b id="st-acc">–</b><span>weighted accuracy</span></div>
+            <div class="stat"><b id="st-time">–</b><span>time used</span></div>
+            <div class="stat"><b id="st-speed">–</b><span>speed bonus</span></div>
+          </div>
+        </div>
+
+        <div class="glass pad mt">
+          <h2>Where you sit in the population</h2>
+          <p class="muted small lead-in">
+            Move across the curve, or focus it and use the arrow keys, to read any score's percentile.
+          </p>
+          <div class="curve-wrap" id="curve"></div>
+        </div>
+
+        <div class="two-col mt">
+          <div class="glass pad">
+            <h2>Accuracy by domain</h2>
+            <div class="bars" id="domain-bars"></div>
+          </div>
+          <div class="glass pad">
+            <h2>Score history</h2>
+            <div id="history-body"></div>
+          </div>
+        </div>
+
+        <div class="glass pad mt">
+          <details class="formula" id="formula">
+            <summary>How this score was calculated</summary>
+            <div class="calc" id="calc"></div>
+          </details>
+        </div>
+
+        <div class="row mt">
+          <button class="btn btn-primary btn-lg" id="btn-review" type="button">Review answers</button>
+          <button class="btn btn-lg" id="btn-retake" type="button">Take the test again</button>
+          <span class="spacer"></span>
+          <button class="btn btn-danger" id="btn-clear" type="button">Clear history</button>
+        </div>
+      </section>
+
+      <!-- ================= REVIEW ================= -->
+      <section id="screen-review" hidden aria-labelledby="review-title">
+        <div class="glass pad">
+          <div class="row mb">
+            <h1 id="review-title" class="h2 m-0" tabindex="-1">Answer review</h1>
+            <span class="spacer"></span>
+            <button class="btn" id="btn-back-results" type="button">Back to results</button>
+          </div>
+          <div class="filter" role="group" aria-label="Filter questions" id="review-filter">
+            <button type="button" data-f="all" aria-pressed="true">All</button>
+            <button type="button" data-f="wrong" aria-pressed="false">Incorrect</button>
+            <button type="button" data-f="skip" aria-pressed="false">Unanswered</button>
+            <button type="button" data-f="flag" aria-pressed="false">Flagged</button>
+          </div>
+          <div id="review-list" class="mt-sm"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer wrap">
+      <p>
+        Practice assessment with illustrative norms. Your answers and scores never leave this browser: there
+        is no server, account or tracking.
+      </p>
+    </footer>
+
+    <div
+      class="modal"
+      id="modal"
+      hidden
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+      aria-describedby="modal-body"
+    >
+      <div class="glass pad">
+        <h2 id="modal-title"></h2>
+        <p class="muted" id="modal-body"></p>
+        <div class="row modal-actions">
+          <button class="btn" id="modal-cancel" type="button">Keep going</button>
+          <button class="btn btn-primary" id="modal-ok" type="button">Submit</button>
+        </div>
+      </div>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div class="sr-only" aria-live="polite" id="sr-live"></div>
+  </body>
+</html>

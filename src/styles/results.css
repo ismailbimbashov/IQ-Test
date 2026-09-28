@@ -1,0 +1,197 @@
+/* ---------- Results ---------- */
+.score-hero {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 28px;
+  align-items: center;
+}
+@media (max-width: 640px) {
+  .score-hero {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+.iq-num {
+  font-size: clamp(4.5rem, 15vw, 7rem);
+  line-height: 0.9;
+  font-weight: 780;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(180deg, #eef2ff, #a5b4fc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.iq-label {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 6px;
+}
+.band {
+  font-size: 1.35rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 16px;
+}
+@media (max-width: 640px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.stat {
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  background: rgba(15, 23, 42, 0.45);
+  border: 1px solid var(--border);
+}
+.stat b {
+  display: block;
+  font-size: 1.2rem;
+  font-variant-numeric: tabular-nums;
+}
+.stat span {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.curve-wrap {
+  overflow-x: auto;
+}
+.curve {
+  width: 100%;
+  min-width: 320px;
+  height: auto;
+  display: block;
+  touch-action: pan-y;
+}
+.bars {
+  display: grid;
+  gap: 14px;
+}
+.bar-row .bar-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.92rem;
+  margin-bottom: 6px;
+}
+.bar-row .bar-top span:last-child {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.bar {
+  height: 10px;
+  border-radius: 99px;
+  background: rgba(51, 65, 85, 0.6);
+  overflow: hidden;
+}
+.bar > i {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: inherit;
+  transition: width 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+@media (max-width: 760px) {
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+}
+details.formula summary {
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+details.formula summary::-webkit-details-marker {
+  display: none;
+}
+details.formula summary::after {
+  content: '+';
+  font-size: 1.3rem;
+  color: var(--muted);
+}
+details.formula[open] summary::after {
+  content: '−';
+}
+.calc {
+  margin-top: 14px;
+  display: grid;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+.calc div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.45);
+}
+.calc code {
+  font-family: var(--mono);
+  color: #c7d2fe;
+  font-size: 0.85rem;
+}
+.calc b {
+  font-variant-numeric: tabular-nums;
+}
+
+.hist-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+.hist-list button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(15, 23, 42, 0.45);
+  text-align: left;
+}
+.hist-list button:hover {
+  border-color: rgba(165, 180, 252, 0.4);
+}
+.hist-list .h-iq {
+  font-weight: 700;
+  font-size: 1.15rem;
+  min-width: 44px;
+  font-variant-numeric: tabular-nums;
+  color: #c7d2fe;
+}
+.hist-list .h-meta {
+  flex: 1;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.spark {
+  width: 100%;
+  height: 90px;
+  display: block;
+  margin: 6px 0 14px;
+}
+.empty {
+  color: var(--muted);
+  font-size: 0.92rem;
+  padding: 14px;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  text-align: center;
+}

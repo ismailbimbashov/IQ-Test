@@ -1,0 +1,170 @@
+:root {
+  --bg: #0a0f1e;
+  --bg-2: #111a33;
+  --panel: rgba(30, 41, 59, 0.52);
+  --panel-strong: rgba(30, 41, 59, 0.78);
+  --border: rgba(148, 163, 184, 0.16);
+  --border-strong: rgba(165, 180, 252, 0.38);
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --dim: #8a98ad;
+  --indigo: #818cf8;
+  --indigo-2: #6366f1;
+  --indigo-soft: rgba(99, 102, 241, 0.16);
+  --ok: #34d399;
+  --warn: #fbbf24;
+  --bad: #f87171;
+  --radius-lg: 22px;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --font: ui-sans-serif, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+html {
+  scroll-padding-top: env(safe-area-inset-top, 0px);
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.55;
+  background:
+    radial-gradient(900px 520px at 12% -10%, rgba(99, 102, 241, 0.22), transparent 60%),
+    radial-gradient(700px 480px at 110% 10%, rgba(139, 92, 246, 0.14), transparent 60%),
+    linear-gradient(180deg, var(--bg-2), var(--bg) 55%);
+  background-attachment: fixed;
+}
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+button {
+  cursor: pointer;
+}
+[hidden] {
+  display: none !important;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+:focus-visible {
+  outline: 2px solid var(--indigo);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* ---------- Layout ---------- */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 18px 20px 6px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+.brand-mark {
+  width: 30px;
+  height: 30px;
+}
+.brand small {
+  color: var(--muted);
+  font-weight: 450;
+  margin-left: 4px;
+}
+.wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 12px 20px 48px;
+}
+.glass {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 20px 50px -24px rgba(2, 6, 23, 0.8);
+}
+.pad {
+  padding: 28px;
+}
+@media (max-width: 600px) {
+  .pad {
+    padding: 20px;
+  }
+  .wrap {
+    padding: 8px 14px 40px;
+  }
+  .topbar {
+    padding: 14px 14px 4px;
+  }
+}
+h1 {
+  font-size: clamp(1.9rem, 4.6vw, 2.7rem);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  margin: 0 0 12px;
+  font-weight: 720;
+}
+h2,
+.h2 {
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
+  margin: 0 0 14px;
+  font-weight: 650;
+}
+h3,
+.h3 {
+  font-size: 1rem;
+  margin: 0 0 8px;
+  font-weight: 620;
+}
+p {
+  margin: 0 0 12px;
+}
+.muted {
+  color: var(--muted);
+}
+.small {
+  font-size: 0.875rem;
+}
+.stack > * + * {
+  margin-top: 18px;
+}
+
+/* Canvas colour behind the fixed gradient, so overscroll and tall pages never show a mismatched background. */
+html {
+  background: var(--bg);
+}
+/* Headings receive programmatic focus on screen changes; they are not interactive, so no ring. */
+[tabindex='-1']:focus {
+  outline: none;
+}

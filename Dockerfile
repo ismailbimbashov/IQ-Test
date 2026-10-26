@@ -10,7 +10,7 @@ COPY . .
 RUN npm run build
 
 # ---- Runtime: non-root nginx serving the files with security headers ----
-FROM nginxinc/nginx-unprivileged:1.30-alpine AS runtime
+FROM nginxinc/nginx-unprivileged:1.31-alpine AS runtime
 LABEL org.opencontainers.image.title="cognitive-index" \
       org.opencontainers.image.description="Timed reasoning assessment scored on the IQ scale, served as a static site." \
       org.opencontainers.image.licenses="MIT"
